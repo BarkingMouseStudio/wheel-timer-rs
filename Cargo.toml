@@ -1,0 +1,9 @@
+[package]
+
+name = "wheel_timer"
+version = "0.0.1"
+authors = [ "jim@barkingmousestudio.com" ]
+
+[[lib]]
+
+name = "wheel_timer"
