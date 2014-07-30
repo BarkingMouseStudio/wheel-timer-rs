@@ -2,6 +2,7 @@ extern crate test;
 
 use test::Bencher;
 
+use std::mem;
 use std::fmt::{Show, Formatter, Result};
 use std::iter::AdditiveIterator;
 
@@ -11,10 +12,6 @@ enum Node<T> {
 }
 
 impl<T> Node<T> {
-  fn new() -> Node<T> {
-    Nil
-  }
-
   fn prepend(self, elem: T) -> Node<T> {
     Cons(elem, box self)
   }
@@ -50,6 +47,7 @@ impl<T: PartialEq> PartialEq for Node<T> {
     }
   }
 }
+
 // Simple hashed wheel timer with bounded interval
 // See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 struct WheelTimer<T> {
@@ -59,12 +57,17 @@ struct WheelTimer<T> {
   ring: Vec<Node<T>>
 }
 
-impl<T> WheelTimer<T> {
-
-  // Returns the number of items currently scheduled
-  fn size(&self) -> uint {
-    return self.ring.iter().map(|node| node.len()).sum()
+impl<T> Iterator<Node<T>> for WheelTimer<T> {
+  fn next(&mut self) -> Option<Node<T>> {
+    let ticked = self.tick();
+    return match ticked {
+      Cons(_, _) => Some(ticked),
+      Nil => None
+    };
   }
+}
+
+impl<T> WheelTimer<T> {
 
   // Creates a new timer with the specified max interval
   fn new(maxInterval: uint) -> WheelTimer<T> {
@@ -81,13 +84,18 @@ impl<T> WheelTimer<T> {
     }
   }
 
+  // Returns the number of items currently scheduled
+  fn size(&self) -> uint {
+    return self.ring.iter().map(|node| node.len()).sum()
+  }
+
   // Schedules a new value, available after `ticks`
   fn schedule(&mut self, ticks: uint, value: T) {
     // Compute the scheduled position in the wheel
     let index = (self.currentTick + ticks) % self.maxInterval;
 
     // Get the current node at `index` in the wheel
-    let node = std::mem::replace(self.ring.get_mut(index), Nil);
+    let node = mem::replace(self.ring.get_mut(index), Nil);
 
     // Set the position in the wheel with the appended node
     *self.ring.get_mut(index) = node.prepend(value);
@@ -96,7 +104,7 @@ impl<T> WheelTimer<T> {
   // Tick the timer, returning the list of nodes at the spot
   fn tick(&mut self) -> Node<T> {
     // Get the node at the current tick in the wheel
-    let node = std::mem::replace(self.ring.get_mut(self.currentTick), Nil);
+    let node = mem::replace(self.ring.get_mut(self.currentTick), Nil);
 
     // Increment the timer
     self.currentTick = (self.currentTick + 1) % self.maxInterval;
@@ -104,38 +112,6 @@ impl<T> WheelTimer<T> {
     // Return the node that was in that spot
     return node
   }
-}
-
-fn main() {
-  // LinkedList example
-  // Create an empty linked list
-  let mut list = Node::<uint>::new();
-
-  // Append some elements
-  list = list.prepend(1);
-  list = list.prepend(2);
-  list = list.prepend(3);
-
-  // Show the final state of the list
-  println!("linked list has length: {}", list.len());
-  println!("{}", list);
-
-  // WheelTimer example
-  // Create a new timer
-  let mut timer = WheelTimer::<uint>::new(3);
-
-  // Schedule some things
-  timer.schedule(1, 1);
-  timer.schedule(2, 2);
-  timer.schedule(3, 3);
-
-  // Print the timer size
-  println!("size: {}", timer.size());
-
-  // Tick! Tick! Tick!
-  println!("{}", timer.tick());
-  println!("{}", timer.tick());
-  println!("{}", timer.tick());
 }
 
 #[test]
@@ -185,6 +161,22 @@ fn wheel_timer_tick_test() {
   }
 }
 
+#[test]
+fn wheel_timer_size_test() {
+  let mut timer = WheelTimer::<uint>::new(10);
+
+  for i in range(0, 10) {
+    timer.schedule(i, i)
+  }
+
+  assert!(timer.size() == 10);
+
+  for _ in timer {
+  }
+
+  assert!(timer.size() == 0);
+}
+
 #[bench]
 fn bench_wheel_timer_drain(b: &mut Bencher) {
   let maxInterval = 20;
@@ -197,8 +189,8 @@ fn bench_wheel_timer_drain(b: &mut Bencher) {
     }
 
     // Drain
-    for _ in range(0u, 100u) {
-      timer.tick();
+    for k in timer {
+      continue;
     }
   });
 }
