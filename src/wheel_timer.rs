@@ -50,7 +50,7 @@ impl<T: PartialEq> PartialEq for Node<T> {
 
 // Simple hashed wheel timer with bounded interval
 // See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
-struct WheelTimer<T> {
+pub struct WheelTimer<T> {
   maxInterval: uint,
   currentTick: uint,
 
