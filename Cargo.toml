@@ -1,6 +1,6 @@
 [package]
 
-name = "wheel-timer"
+name = "wheel_timer"
 version = "0.1.0"
 authors = [ "jim@barkingmousestudio.com" ]
 
