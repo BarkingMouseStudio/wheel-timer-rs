@@ -6,4 +6,4 @@ authors = [ "jim@barkingmousestudio.com" ]
 
 [[lib]]
 
-name = "wheel-timer"
+name = "wheel_timer"
