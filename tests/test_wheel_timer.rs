@@ -4,13 +4,12 @@ extern crate wheel_timer;
 use test::Bencher;
 
 use wheel_timer::WheelTimer;
-use wheel_timer::Node;
 use wheel_timer::Cons;
 use wheel_timer::Nil;
 
 #[test]
 fn wheel_timer_schedule_test() {
-  let mut timer = WheelTimer::<&'static str>::new(10);
+  let mut timer = WheelTimer::new(10);
   timer.schedule(3, "tick");
 
   timer.tick();
@@ -29,7 +28,7 @@ fn wheel_timer_schedule_test() {
 
 #[test]
 fn wheel_timer_tick_test() {
-  let mut timer = WheelTimer::<uint>::new(10);
+  let mut timer = WheelTimer::new(10);
 
   for i in range(0, 10) {
     timer.schedule(i, i)
@@ -49,7 +48,7 @@ fn wheel_timer_tick_test() {
 
 #[test]
 fn wheel_timer_size_test() {
-  let mut timer = WheelTimer::<uint>::new(10);
+  let mut timer = WheelTimer::new(10);
 
   for i in range(0, 10) {
     timer.schedule(i, i)
@@ -66,7 +65,7 @@ fn wheel_timer_size_test() {
 #[bench]
 fn bench_wheel_timer_drain(b: &mut Bencher) {
   let maxInterval = 20;
-  let mut timer = WheelTimer::<uint>::new(maxInterval);
+  let mut timer = WheelTimer::new(maxInterval);
 
   b.iter(|| {
     // Fill
@@ -84,7 +83,7 @@ fn bench_wheel_timer_drain(b: &mut Bencher) {
 #[bench]
 fn bench_wheel_timer_fill(b: &mut Bencher) {
   let maxInterval = 20;
-  let mut timer = WheelTimer::<uint>::new(maxInterval);
+  let mut timer = WheelTimer::new(maxInterval);
   let mut i = 0;
 
   b.iter(|| {
@@ -96,7 +95,7 @@ fn bench_wheel_timer_fill(b: &mut Bencher) {
 #[bench]
 fn bench_wheel_timer_fast(b: &mut Bencher) {
   let maxInterval = 2;
-  let mut timer = WheelTimer::<uint>::new(maxInterval);
+  let mut timer = WheelTimer::new(maxInterval);
   let mut i = 0;
 
   b.iter(|| {
