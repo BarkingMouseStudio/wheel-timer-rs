@@ -8,12 +8,20 @@ Port of https://github.com/BarkingMouseStudio/wheel_timer to Rust for learning.
 Benchmarks
 ---
 
-Rust implementation:
+Rust implementation (vec):
 
 ```
 test bench_wheel_timer_drain ... bench:      3935 ns/iter (+/- 548)
 test bench_wheel_timer_fast  ... bench:        46 ns/iter (+/- 26)
 test bench_wheel_timer_fill  ... bench:        14 ns/iter (+/- 4)
+```
+
+Rust implementation (list):
+
+```
+test bench_wheel_timer_drain ... bench:      8839 ns/iter (+/- 4160)
+test bench_wheel_timer_fast  ... bench:       111 ns/iter (+/- 50)
+test bench_wheel_timer_fill  ... bench:        73 ns/iter (+/- 33)
 ```
 
 Go implementation:
