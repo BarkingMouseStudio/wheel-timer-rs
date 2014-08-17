@@ -1,64 +1,22 @@
 use std::mem;
-use std::fmt::{Show, Formatter, Result};
-use std::iter::AdditiveIterator;
-
-pub enum Node<T> {
-  Cons(T, Box<Node<T>>),
-  Nil
-}
-
-impl<T> Node<T> {
-  fn prepend(self, elem: T) -> Node<T> {
-    Cons(elem, box self)
-  }
-
-  fn len(&self) -> uint {
-    match *self {
-      Cons(_, ref tail) => tail.len() + 1,
-      Nil => 0
-    }
-  }
-}
-
-impl<T: Show> Show for Node<T> {
-  fn fmt(&self, f: &mut Formatter) -> Result {
-    match *self {
-      Cons(ref head, ref tail) => {
-        write!(f, "{}, [ ] -> {}", head, tail)
-      },
-      Nil => {
-        write!(f, "Nil")
-      },
-    }
-  }
-}
-
-impl<T: PartialEq> PartialEq for Node<T> {
-  fn eq(&self, ys: &Node<T>) -> bool {
-    match (self, ys) {
-      (&Nil, &Nil) => true,
-      (&Cons(ref x, box ref next_xs), &Cons(ref y, box ref next_ys))
-        if x == y => next_xs == next_ys,
-      _ => false
-    }
-  }
-}
 
 // Simple hashed wheel timer with bounded interval
 // See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 pub struct WheelTimer<T> {
   maxInterval: uint,
   currentTick: uint,
+  size: uint,
 
-  ring: Vec<Node<T>>
+  ring: Vec<Vec<T>>
 }
 
-impl<T> Iterator<Node<T>> for WheelTimer<T> {
-  fn next(&mut self) -> Option<Node<T>> {
-    let ticked = self.tick();
-    return match ticked {
-      Cons(_, _) => Some(ticked),
-      Nil => None
+impl<T> Iterator<Vec<T>> for WheelTimer<T> {
+  fn next(&mut self) -> Option<Vec<T>> {
+    let size = self.size();
+    return if size > 0 {
+      Some(self.tick())
+    } else {
+      None
     };
   }
 }
@@ -70,19 +28,20 @@ impl<T> WheelTimer<T> {
     // Initialize the ring with Nil values
     let mut ring = Vec::with_capacity(maxInterval);
     for _ in range(0u, maxInterval) {
-      ring.push(Nil)
+      ring.push(Vec::new())
     }
 
     return WheelTimer{
       maxInterval: maxInterval,
       currentTick: 0,
-      ring: ring
+      ring: ring,
+      size: 0,
     }
   }
 
   // Returns the number of items currently scheduled
   pub fn size(&self) -> uint {
-    return self.ring.iter().map(|node| node.len()).sum()
+    self.size
   }
 
   // Schedules a new value, available after `ticks`
@@ -90,20 +49,23 @@ impl<T> WheelTimer<T> {
     // Compute the scheduled position in the wheel
     let index = (self.currentTick + ticks) % self.maxInterval;
 
-    // Get the current node at `index` in the wheel
-    let node = mem::replace(self.ring.get_mut(index), Nil);
+    // Get the current node at `index` in the wheel and append the new node
+    self.ring.get_mut(index).push(value);
 
-    // Set the position in the wheel with the appended node
-    *self.ring.get_mut(index) = node.prepend(value);
+    // Increment the size counter
+    self.size = self.size + 1;
   }
 
-  // Tick the timer, returning the list of nodes at the spot
-  pub fn tick(&mut self) -> Node<T> {
+  // Tick the timer, returning the node at the current tick
+  pub fn tick(&mut self) -> Vec<T> {
     // Get the node at the current tick in the wheel
-    let node = mem::replace(self.ring.get_mut(self.currentTick), Nil);
+    let node = mem::replace(self.ring.get_mut(self.currentTick), Vec::new());
 
     // Increment the timer
     self.currentTick = (self.currentTick + 1) % self.maxInterval;
+
+    // Reduce the size by the length of the removed node
+    self.size = self.size - node.len();
 
     // Return the node that was in that spot
     return node
