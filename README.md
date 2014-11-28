@@ -5,15 +5,37 @@ Simple hashed wheel timer. See http://www.cs.columbia.edu/~nahum/w6998/papers/so
 
 Port of https://github.com/BarkingMouseStudio/wheel_timer to Rust for learning.
 
+Documentation
+---
+
+Impls: `Iterator`
+
+Create a new timer with the specified max interval:
+
+    new(max_interval: uint) -> WheelTimer<T>
+
+Return the number of items currently scheduled:
+
+    size(&self) -> uint
+
+Schedule a new value, available after `ticks`:
+
+    schedule(&mut self, ticks: uint, value: T)
+
+Tick the timer, returning the node at the current tick:
+
+    tick(&mut self) -> Vec<T>
+
+
 Benchmarks
 ---
 
 Rust implementation (vec):
 
 ```
-test bench_wheel_timer_drain ... bench:      3935 ns/iter (+/- 548)
-test bench_wheel_timer_fast  ... bench:        46 ns/iter (+/- 26)
-test bench_wheel_timer_fill  ... bench:        14 ns/iter (+/- 4)
+test bench_wheel_timer_drain ... bench:      4644 ns/iter (+/- 628)
+test bench_wheel_timer_fast  ... bench:        61 ns/iter (+/- 4)
+test bench_wheel_timer_fill  ... bench:        30 ns/iter (+/- 5)
 ```
 
 Rust implementation (list):
