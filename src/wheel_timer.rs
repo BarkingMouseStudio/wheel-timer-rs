@@ -1,16 +1,21 @@
+#![allow(unstable)]
+
 use std::mem;
+use std::ops::IndexMut;
 
 // Simple hashed wheel timer with bounded interval
 // See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 pub struct WheelTimer<T> {
-  max_interval: uint,
-  current_tick: uint,
-  size: uint,
+  max_interval: usize,
+  current_tick: usize,
+  size: usize,
 
   ring: Vec<Vec<T>>
 }
 
-impl<T> Iterator<Vec<T>> for WheelTimer<T> {
+impl<T> Iterator for WheelTimer<T> {
+  type Item = Vec<T>;
+
   fn next(&mut self) -> Option<Vec<T>> {
     let size = self.size();
     return if size > 0 {
@@ -24,10 +29,10 @@ impl<T> Iterator<Vec<T>> for WheelTimer<T> {
 impl<T> WheelTimer<T> {
 
   // Creates a new timer with the specified max interval
-  pub fn new(max_interval: uint) -> WheelTimer<T> {
+  pub fn new(max_interval: usize) -> WheelTimer<T> {
     // Initialize the ring with Nil values
     let mut ring = Vec::with_capacity(max_interval);
-    for _ in range(0u, max_interval) {
+    for _ in range(0us, max_interval) {
       ring.push(Vec::new())
     }
 
@@ -40,12 +45,12 @@ impl<T> WheelTimer<T> {
   }
 
   // Returns the number of items currently scheduled
-  pub fn size(&self) -> uint {
+  pub fn size(&self) -> usize {
     self.size
   }
 
   // Schedules a new value, available after `ticks`
-  pub fn schedule(&mut self, ticks: uint, value: T) {
+  pub fn schedule(&mut self, ticks: usize, value: T) {
     // Compute the scheduled position in the wheel
     let index = (self.current_tick + ticks) % self.max_interval;
 
