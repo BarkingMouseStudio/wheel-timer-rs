@@ -5,6 +5,7 @@ version = "0.1.1"
 description = "A simple hashed wheel timer."
 authors = [ "jim@barkingmousestudio.com" ]
 license = "MIT"
+documentation = "https://github.com/BarkingMouseStudio/wheel-timer-rs#documentation"
 
 [lib]
 
