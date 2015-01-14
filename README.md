@@ -32,10 +32,20 @@ Benchmarks
 
 Rust implementation (vec):
 
+Pre-alpha:
+
 ```
 test bench_wheel_timer_drain ... bench:      4644 ns/iter (+/- 628)
 test bench_wheel_timer_fast  ... bench:        61 ns/iter (+/- 4)
 test bench_wheel_timer_fill  ... bench:        30 ns/iter (+/- 5)
+```
+
+Alpha:
+
+```
+test bench_wheel_timer_drain ... bench:      3410 ns/iter (+/- 1198)
+test bench_wheel_timer_fast  ... bench:        43 ns/iter (+/- 27)
+test bench_wheel_timer_fill  ... bench:        20 ns/iter (+/- 3)
 ```
 
 Rust implementation (list):

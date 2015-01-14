@@ -1,3 +1,5 @@
+#![allow(unstable)]
+
 extern crate test;
 extern crate wheel_timer;
 
@@ -12,7 +14,7 @@ fn bench_wheel_timer_drain(b: &mut Bencher) {
 
   b.iter(|| {
     // Fill
-    for j in range(0u, 100u) {
+    for j in range(0us, 100) {
       timer.schedule(j%max_interval, j%max_interval);
     }
 
