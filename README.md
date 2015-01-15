@@ -8,7 +8,7 @@ Ported from Go version (https://github.com/BarkingMouseStudio/wheel_timer) to Ru
 Documentation
 ---
 
-https://barkingmousestudio.github.io/wheel-timer-rs
+http://barkingmousestudio.com/wheel-timer-rs/wheel_timer/
 
 Benchmarks
 ---
