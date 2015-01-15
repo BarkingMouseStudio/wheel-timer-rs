@@ -1,10 +1,15 @@
+//! Simple hashed wheel timer with bounded interval.
+//!
+//! Relevant:
+//! http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
+
+#![unstable]
 #![allow(unstable)]
 
 use std::mem;
 use std::ops::IndexMut;
 
-// Simple hashed wheel timer with bounded interval
-// See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
+/// A simple wheel timer implementation with a fixed ring size.
 pub struct WheelTimer<T> {
   max_interval: usize,
   current_tick: usize,
@@ -13,6 +18,17 @@ pub struct WheelTimer<T> {
   ring: Vec<Vec<T>>
 }
 
+/// Iterator implementation allows for using the wheel timer in a for loop.
+///
+/// # Example
+///
+/// ```
+/// use wheel_timer::WheelTimer;
+/// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+/// for result in timer {
+///   // result is a vector of the values at that step
+/// }
+/// ```
 impl<T> Iterator for WheelTimer<T> {
   type Item = Vec<T>;
 
@@ -28,7 +44,14 @@ impl<T> Iterator for WheelTimer<T> {
 
 impl<T> WheelTimer<T> {
 
-  // Creates a new timer with the specified max interval
+  /// Creates a new timer with the specified max interval.
+  ///
+  /// # Example
+  ///
+  /// ```
+  /// use wheel_timer::WheelTimer;
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// ```
   pub fn new(max_interval: usize) -> WheelTimer<T> {
     // Initialize the ring with Nil values
     let mut ring = Vec::with_capacity(max_interval);
@@ -44,12 +67,31 @@ impl<T> WheelTimer<T> {
     }
   }
 
-  // Returns the number of items currently scheduled
+  /// Returns the number of items currently scheduled.
+  ///
+  /// # Example
+  ///
+  /// ```
+  /// use wheel_timer::WheelTimer;
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// timer.schedule(4, 1);
+  /// timer.schedule(7, 1);
+  /// timer.schedule(1, 1);
+  /// assert_eq!(timer.size(), 3);
+  /// ```
   pub fn size(&self) -> usize {
     self.size
   }
 
-  // Schedules a new value, available after `ticks`
+  /// Schedules a new value, available after `ticks` have passed.
+  ///
+  /// # Example
+  ///
+  /// ```
+  /// use wheel_timer::WheelTimer;
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// timer.schedule(4, 7); // schedule value 7 for 4 ticks
+  /// ```
   pub fn schedule(&mut self, ticks: usize, value: T) {
     // Compute the scheduled position in the wheel
     let index = (self.current_tick + ticks) % self.max_interval;
@@ -61,7 +103,20 @@ impl<T> WheelTimer<T> {
     self.size = self.size + 1;
   }
 
-  // Tick the timer, returning the node at the current tick
+  /// Tick the timer, returning the node at the current tick.
+  ///
+  /// # Example
+  ///
+  /// ```
+  /// use wheel_timer::WheelTimer;
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// timer.schedule(3, 4); // schedule value 4 for 3 ticks
+  /// timer.tick();
+  /// timer.tick();
+  /// timer.tick();
+  /// let result = timer.tick(); // vec![4]
+  /// assert_eq!(result.len(), 1);
+  /// ```
   pub fn tick(&mut self) -> Vec<T> {
     // Get the node at the current tick in the wheel
     let node = mem::replace(self.ring.index_mut(&self.current_tick), Vec::new());
