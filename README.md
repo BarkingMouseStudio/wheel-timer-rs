@@ -3,17 +3,17 @@ Hashed Wheel Timer
 
 A simple hashed wheel timer. See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 
-Port of https://github.com/BarkingMouseStudio/wheel_timer to Rust for learning.
+Ported from Go version (https://github.com/BarkingMouseStudio/wheel_timer) to Rust.
 
 Documentation
 ---
 
-https://barkingmousestudio.github.com/wheel-timer-rs
+https://barkingmousestudio.github.io/wheel-timer-rs
 
 Benchmarks
 ---
 
-Rust implementation (vec):
+Rust implementation (using vec):
 
 Pre-alpha:
 
@@ -31,7 +31,7 @@ test bench_wheel_timer_fast  ... bench:        43 ns/iter (+/- 27)
 test bench_wheel_timer_fill  ... bench:        20 ns/iter (+/- 3)
 ```
 
-Rust implementation (list):
+Rust implementation (using linked list):
 
 ```
 test bench_wheel_timer_drain ... bench:      8839 ns/iter (+/- 4160)
