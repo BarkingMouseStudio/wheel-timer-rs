@@ -24,6 +24,7 @@ pub struct WheelTimer<T> {
 ///
 /// ```
 /// use wheel_timer::WheelTimer;
+///
 /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
 /// for result in timer {
 ///   // result is a vector of the values at that step
@@ -50,6 +51,7 @@ impl<T> WheelTimer<T> {
   ///
   /// ```
   /// use wheel_timer::WheelTimer;
+  ///
   /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
   /// ```
   pub fn new(max_interval: usize) -> WheelTimer<T> {
@@ -73,6 +75,7 @@ impl<T> WheelTimer<T> {
   ///
   /// ```
   /// use wheel_timer::WheelTimer;
+  ///
   /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
   /// timer.schedule(4, 1);
   /// timer.schedule(7, 1);
@@ -89,6 +92,7 @@ impl<T> WheelTimer<T> {
   ///
   /// ```
   /// use wheel_timer::WheelTimer;
+  ///
   /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
   /// timer.schedule(4, 7); // schedule value 7 for 4 ticks
   /// ```
@@ -109,6 +113,7 @@ impl<T> WheelTimer<T> {
   ///
   /// ```
   /// use wheel_timer::WheelTimer;
+  ///
   /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
   /// timer.schedule(3, 4); // schedule value 4 for 3 ticks
   /// timer.tick();
