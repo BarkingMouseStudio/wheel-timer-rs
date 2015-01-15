@@ -1,31 +1,14 @@
 Hashed Wheel Timer
 ===
 
-Simple hashed wheel timer. See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
+A simple hashed wheel timer. See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 
 Port of https://github.com/BarkingMouseStudio/wheel_timer to Rust for learning.
 
 Documentation
 ---
 
-Impls: `Iterator`
-
-Create a new timer with the specified max interval:
-
-    new(max_interval: uint) -> WheelTimer<T>
-
-Return the number of items currently scheduled:
-
-    size(&self) -> uint
-
-Schedule a new value, available after `ticks`:
-
-    schedule(&mut self, ticks: uint, value: T)
-
-Tick the timer, returning the node at the current tick:
-
-    tick(&mut self) -> Vec<T>
-
+https://barkingmousestudio.github.com/wheel-timer-rs
 
 Benchmarks
 ---
