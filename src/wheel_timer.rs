@@ -4,7 +4,7 @@
 //! http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 
 #![unstable]
-#![allow(unstable)]
+#![feature(core)]
 
 use std::mem;
 use std::ops::IndexMut;
