@@ -1,4 +1,5 @@
-#![allow(unstable)]
+#![feature(core)]
+#![feature(test)]
 
 extern crate test;
 extern crate wheel_timer;
@@ -19,8 +20,8 @@ fn bench_wheel_timer_drain(b: &mut Bencher) {
     }
 
     // Drain
-    for _ in timer {
-      continue;
+    for _ in range(0, 100) {
+      timer.tick();
     }
   });
 }
