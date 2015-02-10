@@ -1,4 +1,5 @@
-#![allow(unstable)]
+#![feature(core)]
+#![feature(test)]
 
 extern crate test;
 extern crate wheel_timer;
@@ -40,7 +41,7 @@ fn wheel_timer_tick_test() {
 
 #[test]
 fn wheel_timer_size_test() {
-  let mut timer = WheelTimer::new(10);
+  let mut timer = Box::new(WheelTimer::new(10));
 
   for i in range(0, 10) {
     timer.schedule(i, i)
@@ -48,7 +49,8 @@ fn wheel_timer_size_test() {
 
   assert_eq!(timer.size(), 10);
 
-  for _ in timer {
+  for _ in range(0, 10) {
+    timer.tick();
   }
 
   assert_eq!(timer.size(), 0);
