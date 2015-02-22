@@ -25,7 +25,7 @@ pub struct WheelTimer<T> {
 /// ```
 /// use wheel_timer::WheelTimer;
 ///
-/// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+/// let mut timer: WheelTimer<usize> = WheelTimer::new(20);
 /// for result in timer {
 ///   // result is a vector of the values at that step
 /// }
@@ -52,12 +52,12 @@ impl<T> WheelTimer<T> {
   /// ```
   /// use wheel_timer::WheelTimer;
   ///
-  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20);
   /// ```
   pub fn new(max_interval: usize) -> WheelTimer<T> {
     // Initialize the ring with Nil values
     let mut ring = Vec::with_capacity(max_interval);
-    for _ in range(0us, max_interval) {
+    for _ in range(0, max_interval) {
       ring.push(Vec::new())
     }
 
@@ -76,7 +76,7 @@ impl<T> WheelTimer<T> {
   /// ```
   /// use wheel_timer::WheelTimer;
   ///
-  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20);
   /// timer.schedule(4, 1);
   /// timer.schedule(7, 1);
   /// timer.schedule(1, 1);
@@ -93,7 +93,7 @@ impl<T> WheelTimer<T> {
   /// ```
   /// use wheel_timer::WheelTimer;
   ///
-  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20);
   /// timer.schedule(4, 7); // schedule value 7 for 4 ticks
   /// ```
   pub fn schedule(&mut self, ticks: usize, value: T) {
@@ -114,7 +114,7 @@ impl<T> WheelTimer<T> {
   /// ```
   /// use wheel_timer::WheelTimer;
   ///
-  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20us);
+  /// let mut timer: WheelTimer<usize> = WheelTimer::new(20);
   /// timer.schedule(3, 4); // schedule value 4 for 3 ticks
   /// timer.tick();
   /// timer.tick();
