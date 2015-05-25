@@ -1,6 +1,8 @@
 Hashed Wheel Timer
 ===
 
+[![Build Status](https://travis-ci.org/BarkingMouseStudio/wheel-timer-rs.svg?branch=master)](https://travis-ci.org/BarkingMouseStudio/wheel-timer-rs)
+
 A simple hashed wheel timer. See http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 
 Ported from Go version (https://github.com/BarkingMouseStudio/wheel_timer) to Rust.
