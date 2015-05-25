@@ -33,6 +33,14 @@ test bench_wheel_timer_fast  ... bench:        43 ns/iter (+/- 27)
 test bench_wheel_timer_fill  ... bench:        20 ns/iter (+/- 3)
 ```
 
+1.0 (nightly):
+
+```
+test bench_wheel_timer_drain ... bench:      4751 ns/iter (+/- 1696)
+test bench_wheel_timer_fast  ... bench:        55 ns/iter (+/- 17)
+test bench_wheel_timer_fill  ... bench:        14 ns/iter (+/- 12)
+```
+
 Rust implementation (using linked list):
 
 ```
