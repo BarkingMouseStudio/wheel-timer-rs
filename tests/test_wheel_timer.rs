@@ -1,7 +1,3 @@
-#![feature(core)]
-#![feature(test)]
-
-extern crate test;
 extern crate wheel_timer;
 
 use wheel_timer::WheelTimer;
@@ -26,11 +22,11 @@ fn wheel_timer_schedule_test() {
 fn wheel_timer_tick_test() {
   let mut timer = WheelTimer::new(10);
 
-  for i in range(0, 10) {
+  for i in 0..10 {
     timer.schedule(i, i)
   }
 
-  for i in range(0, 10) {
+  for i in 0..10 {
     let list = timer.tick();
     assert_eq!(list.len(), 1);
 
@@ -43,13 +39,13 @@ fn wheel_timer_tick_test() {
 fn wheel_timer_size_test() {
   let mut timer = Box::new(WheelTimer::new(10));
 
-  for i in range(0, 10) {
+  for i in 0..10 {
     timer.schedule(i, i)
   }
 
   assert_eq!(timer.size(), 10);
 
-  for _ in range(0, 10) {
+  for _ in 0..10 {
     timer.tick();
   }
 
