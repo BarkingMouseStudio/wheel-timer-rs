@@ -3,9 +3,6 @@
 //! Relevant:
 //! http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf
 
-#![unstable]
-#![feature(core)]
-
 use std::mem;
 use std::ops::IndexMut;
 
@@ -57,7 +54,7 @@ impl<T> WheelTimer<T> {
   pub fn new(max_interval: usize) -> WheelTimer<T> {
     // Initialize the ring with Nil values
     let mut ring = Vec::with_capacity(max_interval);
-    for _ in range(0, max_interval) {
+    for _ in 0..max_interval {
       ring.push(Vec::new())
     }
 
@@ -101,7 +98,7 @@ impl<T> WheelTimer<T> {
     let index = (self.current_tick + ticks) % self.max_interval;
 
     // Get the current node at `index` in the wheel and append the new node
-    self.ring.index_mut(&index).push(value);
+    self.ring.index_mut(index).push(value);
 
     // Increment the size counter
     self.size = self.size + 1;
@@ -124,7 +121,7 @@ impl<T> WheelTimer<T> {
   /// ```
   pub fn tick(&mut self) -> Vec<T> {
     // Get the node at the current tick in the wheel
-    let node = mem::replace(self.ring.index_mut(&self.current_tick), Vec::new());
+    let node = mem::replace(self.ring.index_mut(self.current_tick), Vec::new());
 
     // Increment the timer
     self.current_tick = (self.current_tick + 1) % self.max_interval;
