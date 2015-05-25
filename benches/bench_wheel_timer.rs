@@ -1,4 +1,3 @@
-#![feature(core)]
 #![feature(test)]
 
 extern crate test;
@@ -15,12 +14,12 @@ fn bench_wheel_timer_drain(b: &mut Bencher) {
 
   b.iter(|| {
     // Fill
-    for j in range(0us, 100) {
+    for j in 0..100 {
       timer.schedule(j%max_interval, j%max_interval);
     }
 
     // Drain
-    for _ in range(0, 100) {
+    for _ in 0..100 {
       timer.tick();
     }
   });
