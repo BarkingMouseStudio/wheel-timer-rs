@@ -33,12 +33,12 @@ test bench_wheel_timer_fast  ... bench:        43 ns/iter (+/- 27)
 test bench_wheel_timer_fill  ... bench:        20 ns/iter (+/- 3)
 ```
 
-1.0 (nightly):
+rustc 1.4.0-nightly (f05b22efb 2015-08-15):
 
 ```
-test bench_wheel_timer_drain ... bench:      4751 ns/iter (+/- 1696)
-test bench_wheel_timer_fast  ... bench:        55 ns/iter (+/- 17)
-test bench_wheel_timer_fill  ... bench:        14 ns/iter (+/- 12)
+test bench_wheel_timer_drain ... bench:       4,093 ns/iter (+/- 1,322)
+test bench_wheel_timer_fast  ... bench:          50 ns/iter (+/- 25)
+test bench_wheel_timer_fill  ... bench:          15 ns/iter (+/- 8)
 ```
 
 Rust implementation (using linked list):
