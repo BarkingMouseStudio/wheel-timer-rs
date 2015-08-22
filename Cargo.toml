@@ -6,6 +6,7 @@ description = "A simple hashed wheel timer."
 authors = [ "jim@barkingmousestudio.com" ]
 license = "MIT"
 documentation = "http://barkingmousestudio.com/wheel-timer-rs/wheel_timer/"
+repository = "https://github.com/barkingmousestudio/wheel-timer-rs"
 
 [lib]
 
