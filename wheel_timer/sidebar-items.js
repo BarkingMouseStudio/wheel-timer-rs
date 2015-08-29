@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["WheelTimer","A simple wheel timer implementation with a fixed ring size."]]});
