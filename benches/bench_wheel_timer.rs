@@ -9,43 +9,43 @@ use wheel_timer::WheelTimer;
 
 #[bench]
 fn bench_wheel_timer_drain(b: &mut Bencher) {
-  let max_interval = 20;
-  let mut timer = WheelTimer::new(max_interval);
+    let max_interval = 20;
+    let mut timer = WheelTimer::new(max_interval);
 
-  b.iter(|| {
-    // Fill
-    for j in 0..100 {
-      timer.schedule(j%max_interval, j%max_interval);
-    }
+    b.iter(|| {
+        // Fill
+        for j in 0..100 {
+            timer.schedule(j % max_interval, j % max_interval);
+        }
 
-    // Drain
-    for _ in 0..100 {
-      timer.tick();
-    }
-  });
+        // Drain
+        for _ in 0..100 {
+            timer.tick();
+        }
+    });
 }
 
 #[bench]
 fn bench_wheel_timer_fill(b: &mut Bencher) {
-  let max_interval = 20;
-  let mut timer = WheelTimer::new(max_interval);
-  let mut i = 0;
+    let max_interval = 20;
+    let mut timer = WheelTimer::new(max_interval);
+    let mut i = 0;
 
-  b.iter(|| {
-    timer.schedule(i%max_interval, i%max_interval);
-    i = i + 1;
-  });
+    b.iter(|| {
+        timer.schedule(i % max_interval, i % max_interval);
+        i = i + 1;
+    });
 }
 
 #[bench]
 fn bench_wheel_timer_fast(b: &mut Bencher) {
-  let max_interval = 2;
-  let mut timer = WheelTimer::new(max_interval);
-  let mut i = 0;
+    let max_interval = 2;
+    let mut timer = WheelTimer::new(max_interval);
+    let mut i = 0;
 
-  b.iter(|| {
-    timer.schedule(i%max_interval, i%max_interval);
-    timer.tick();
-    i = i + 1;
-  });
+    b.iter(|| {
+        timer.schedule(i % max_interval, i % max_interval);
+        timer.tick();
+        i = i + 1;
+    });
 }
