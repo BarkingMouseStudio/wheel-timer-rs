@@ -31,8 +31,7 @@ impl<T> Iterator for WheelTimer<T> {
     type Item = Vec<T>;
 
     fn next(&mut self) -> Option<Vec<T>> {
-        let size = self.size();
-        if size > 0 {
+        if self.size() > 0 {
             Some(self.tick())
         } else {
             None
