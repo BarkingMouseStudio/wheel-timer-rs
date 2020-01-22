@@ -4,6 +4,7 @@ name = "wheel_timer"
 version = "0.3.1"
 description = "A simple hashed wheel timer."
 authors = [ "jim@barkingmousestudio.com" ]
+edition = "2018"
 license = "MIT"
 homepage = "https://crates.io/crates/wheel_timer"
 documentation = "http://barkingmousestudio.com/wheel-timer-rs/wheel_timer/"

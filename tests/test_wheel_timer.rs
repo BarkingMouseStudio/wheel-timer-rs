@@ -1,5 +1,3 @@
-extern crate wheel_timer;
-
 use wheel_timer::WheelTimer;
 
 #[test]

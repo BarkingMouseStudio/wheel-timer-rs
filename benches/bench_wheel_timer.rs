@@ -1,7 +1,6 @@
 #![feature(test)]
 
 extern crate test;
-extern crate wheel_timer;
 
 use test::Bencher;
 
