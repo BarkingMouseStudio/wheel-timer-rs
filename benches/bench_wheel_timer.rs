@@ -33,7 +33,7 @@ fn bench_wheel_timer_fill(b: &mut Bencher) {
 
     b.iter(|| {
         timer.schedule(i % max_interval, i % max_interval);
-        i = i + 1;
+        i += 1;
     });
 }
 
@@ -46,6 +46,6 @@ fn bench_wheel_timer_fast(b: &mut Bencher) {
     b.iter(|| {
         timer.schedule(i % max_interval, i % max_interval);
         timer.tick();
-        i = i + 1;
+        i += 1;
     });
 }

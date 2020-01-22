@@ -32,7 +32,7 @@ impl<T> Iterator for WheelTimer<T> {
 
     fn next(&mut self) -> Option<Vec<T>> {
         let size = self.size();
-        return if size > 0 { Some(self.tick()) } else { None };
+        if size > 0 { Some(self.tick()) } else { None }
     }
 }
 
@@ -53,12 +53,12 @@ impl<T> WheelTimer<T> {
             ring.push(Vec::new())
         }
 
-        return WheelTimer {
-            max_interval: max_interval,
+        WheelTimer {
+            max_interval,
             current_tick: 0,
-            ring: ring,
+            ring,
             size: 0,
-        };
+        }
     }
 
     /// Returns the number of items currently scheduled.
@@ -96,7 +96,7 @@ impl<T> WheelTimer<T> {
         self.ring.index_mut(index).push(value);
 
         // Increment the size counter
-        self.size = self.size + 1;
+        self.size += 1;
     }
 
     /// Tick the timer, returning the node at the current tick.
@@ -122,9 +122,9 @@ impl<T> WheelTimer<T> {
         self.current_tick = (self.current_tick + 1) % self.max_interval;
 
         // Reduce the size by the length of the removed node
-        self.size = self.size - node.len();
+        self.size -= node.len();
 
         // Return the node that was in that spot
-        return node;
+        node
     }
 }
